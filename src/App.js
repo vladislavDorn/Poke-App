@@ -1,76 +1,78 @@
 import React, { Component } from "react";
 import ApiService from "./services/apiService";
-import DevTools from 'mobx-react-devtools'
-import { observer } from 'mobx-react'
-import { observable } from 'mobx'
+import { observer } from "mobx-react";
+import { observable, action } from "mobx";
 
 import PokemonList from "./components/pokemon/PokemonList";
 import Spinner from "./components/spinner";
 import Popup from "./components/popup";
 
+@observer
 class App extends Component {
   apiService = new ApiService();
   regex = /\/([0-9]*)\/$/;
 
-  state = {
-    isLoad: false,
-    data: [],
-    popup: false,
-    currentPoke: null,
-    limit: 20,
-    offset: 0
-  };
+  @observable data = [];
+  @observable isLoad = false;
+  @observable popup = false;
+  @observable currentPoke = null;
+  @observable offset = 0;
+  @observable limit = 20;
 
   componentDidMount() {
     this.getAllPoke();
   }
 
   getAllPoke = () => {
-    this.setState({
-      isLoad: false
-    });
     this.apiService
-      .getData(`pokemon?offset=${this.state.offset}&limit=${this.state.limit}`)
-      .then(res => {
-        res.results.forEach((el, i) => {
-          this.apiService
-            .getCurrentPoke(el.url.match(this.regex)[1])
-            .then(res => {
-              this.setState({ data: [...this.state.data, res] });
-            });
-          if (i === res.results.length - 1) {
-            this.setState({ isLoad: true });
-          }
-        });
-      });
-  };
-
-  openPopup = url => {
-    this.setState({ popup: true });
-    this.apiService.getCurrentPoke(url.match(this.regex)[1]).then(res => {
-      this.setState({ currentPoke: res });
-    });
-  };
-
-  closePopup = () => {
-    this.setState({ popup: false, currentPoke: null });
-  };
-
-  changeLimit = e => {
-    this.setState({ limit: +e.target.textContent });
+      .getData(`pokemon?offset=${this.offset}&limit=${this.limit}`)
+      .then(this.getPoke);
   };
 
   render() {
-    const { isLoad, data, popup, currentPoke } = this.state;
+    if (!this.isLoad) {
+      return <Spinner />;
+    }
+
     return (
       <>
         <div className="container">
-          {isLoad && data.length ? <PokemonList data={data} /> : <Spinner />}
+          <PokemonList data={this.data} openPopup={this.openPopup} />
         </div>
-        {popup ? <Popup currentPoke={currentPoke} /> : null}
+        {this.popup ? <Popup currentPoke={this.currentPoke} closePopup={this.closePopup} /> : null}
       </>
     );
   }
+
+  @action
+  getPoke = data => {
+    data.results.forEach(async (el, i) => {
+      try {
+        const response = await this.apiService.getCurrentPoke(
+          el.url.match(this.regex)[1]
+        );
+        console.log(response)
+        this.data = [...this.data, response];
+      } catch (e) {
+        throw new Error(`Error ${e}`)
+      }
+      if (i === data.results.length - 1) {
+        this.isLoad = true;
+      }
+    });
+  };
+
+  @action
+  openPopup = e => {
+    this.currentPoke = this.data.find(el => +el.id === +e.target.dataset.id)
+    this.popup = true
+  }
+
+  @action
+  closePopup = () => {
+    this.popup = false
+  }
+
 }
 
 export default App;

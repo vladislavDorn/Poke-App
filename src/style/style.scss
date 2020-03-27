@@ -15,3 +15,24 @@
        padding: 0 15px;
     }
 }
+
+.type_flying {
+    border: 5px solid SkyBlue;
+}
+.type_poison {
+    border: 5px solid Aquamarine;
+}
+.type_fire {
+    border: 5px solid OrangeRed;
+    // background: rgba(255, 69, 0, 0.2);
+}
+.type_water {
+    border: 5px solid Aqua;
+    // background: rgba(0, 255, 255, 0.2);
+}
+.type_bug {
+    border: 5px solid SpringGreen;
+}
+.type_normal {
+    border: 5px solid Gold;
+}

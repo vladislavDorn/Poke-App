@@ -24,15 +24,45 @@
 }
 .type_fire {
     border: 5px solid OrangeRed;
-    // background: rgba(255, 69, 0, 0.2);
 }
 .type_water {
     border: 5px solid Aqua;
-    // background: rgba(0, 255, 255, 0.2);
 }
 .type_bug {
     border: 5px solid SpringGreen;
 }
 .type_normal {
+    border: 5px solid Tan;    
+}
+
+.type_ground {
+    border: 5px solid BlueViolet;
+}
+
+.type_electric {
     border: 5px solid Gold;
+}
+
+.type_fairy {
+    border: 5px solid HotPink; 
+}
+
+.type_fighting {
+    border: 5px solid Gray; 
+}
+
+.type_grass {
+    border: 5px solid Coral; 
+}
+
+.type_psychic {
+    border: 5px solid Plum; 
+}
+
+.type_steel {
+    border: 5px solid Black; 
+}
+
+.type_ice {
+    border: 5px solid DodgerBlue; 
 }

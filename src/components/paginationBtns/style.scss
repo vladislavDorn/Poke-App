@@ -1,0 +1,20 @@
+.pagination {
+    &__group {
+        display: flex;
+        justify-content: center;
+        align-self: center;
+        margin: 20px 0;
+    }
+    &__btn {
+        width: 28px;
+        padding: 5px;
+        border-radius: 50%;
+        background: #000;
+        color: #fff;
+        font-family: "Open Sans", sans-serif;
+        font-weight: 800;
+        border: none;
+        margin: 0 20px;
+        cursor: pointer;
+    }
+}

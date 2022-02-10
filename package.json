@@ -86,7 +86,7 @@
     "mobx": "^5.15.4",
     "mobx-react": "^6.1.8",
     "mobx-react-devtools": "^6.1.1",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "sass": "^1.26.3",
     "sass-loader": "^8.0.2"
   },
